@@ -1,27 +1,57 @@
-# NetflixClone
+# Netflix Clone
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.2.0.
+This is a Netflix clone project built using modern web technologies. The purpose of this project is to replicate the core functionalities of Netflix, including movie browsing and video streaming.
 
-## Development server
+## Features
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+- Browse Movies and TV Shows
+- Search Functionality
+- Watch Trailers
+- Responsive Design
 
-## Code scaffolding
+## Technologies Used
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+- **Frontend:**
+    - Angular
+    - CSS/SCSS
+    - Material-UI
 
-## Build
+## Installation
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+1. Clone the repository:
+     ```bash
+     git clone https://github.com/yourusername/netflix-clone.git
+     ```
 
-## Running unit tests
+2. Navigate to the project directory:
+     ```bash
+     cd netflix-clone
+     ```
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+3. Install dependencies:
+     ```bash
+     npm install
+     ```
 
-## Running end-to-end tests
+4. Start the development server:
+     ```bash
+     ng serve
+     ```
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+## Usage
 
-## Further help
+- Open your browser and go to `http://localhost:4200` to see the application in action.
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+## Contributing
+
+Contributions are welcome! Please fork the repository and create a pull request with your changes.
+
+## License
+
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for more details.
+
+## Acknowledgements
+
+- [Netflix](https://www.netflix.com) for the inspiration.
+- [TMDb API](https://www.themoviedb.org/documentation/api) for movie data.
+
