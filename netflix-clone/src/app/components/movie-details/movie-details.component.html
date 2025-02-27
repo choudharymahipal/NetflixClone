@@ -1,0 +1,10 @@
+<div class="movie-details">
+  <h1>{{ movie.title }}</h1>
+  <img [src]="movie.posterUrl" alt="{{ movie.title }} poster" />
+  <p>{{ movie.description }}</p>
+  <div class="movie-info">
+    <span>Release Date: {{ movie.releaseDate }}</span>
+    <span>Rating: {{ movie.rating }}</span>
+  </div>
+  <button (click)="addToFavorites(movie)">Add to Favorites</button>
+</div>
