@@ -46,6 +46,17 @@ This is a Netflix clone project built using modern web technologies. The purpose
 
 Contributions are welcome! Please fork the repository and create a pull request with your changes.
 
+## Deployment
+
+The project is deployed on GitHub Pages. You can view the live demo [here](https://choudharymahipal.github.io/NetflixClone/).
+
+```bash
+npm install -g angular-cli-ghpages
+ng build --base-href "/NetflixClone/"
+ngh --dir dist/netflix-clone/browser
+```
+
+
 ## License
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for more details.
