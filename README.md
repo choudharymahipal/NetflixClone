@@ -52,7 +52,7 @@ The project is deployed on GitHub Pages. You can view the live demo [here](https
 
 ```bash
 npm install -g angular-cli-ghpages
-ng build --base-href "/NetflixClone/"
+ng build --base-href "https://choudharymahipal.github.io/NetflixClone/"
 ngh --dir dist/netflix-clone/browser
 ```
 
