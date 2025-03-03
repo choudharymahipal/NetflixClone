@@ -20,7 +20,7 @@ This is a Netflix clone project built using modern web technologies. The purpose
 
 1. Clone the repository:
      ```bash
-     git clone https://github.com/yourusername/netflix-clone.git
+     git clone https://github.com/choudharymahipal/NetflixClone.git
      ```
 
 2. Navigate to the project directory:
