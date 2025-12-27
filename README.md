@@ -8,6 +8,7 @@ This is a Netflix clone project built using modern web technologies. The purpose
 - Search Functionality
 - Watch Trailers
 - Responsive Design
+- TMDB API Integration
 
 ## Technologies Used
 
@@ -37,6 +38,13 @@ This is a Netflix clone project built using modern web technologies. The purpose
      ```bash
      ng serve
      ```
+
+## Get TMDB API Key
+- Open https://www.themoviedb.org/
+- Create account
+- Go to Settings → API
+- Generate API Key
+- Add this API key inside environment.ts file.
 
 ## Usage
 

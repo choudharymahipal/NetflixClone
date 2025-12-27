@@ -1,0 +1,104 @@
+:host {
+  display: block;
+  background: #000;
+  color: #fff;
+  min-height: 100vh;
+}
+
+/* HERO SECTION */
+.banner {
+  position: relative;
+  height: 75vh;
+  width: 100%;
+  display: flex;
+  align-items: flex-end;
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+
+/* Background Image */
+.banner-bg {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+}
+
+/* Dark Gradient */
+.overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, #000 10%, transparent 60%);
+}
+
+/* Banner Text */
+.banner-content {
+  position: relative;
+  padding: 0 4rem 4rem;
+  max-width: 650px;
+  z-index: 2;
+}
+
+.banner-content h1 {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.banner-content p {
+  font-size: 1.1rem;
+  opacity: .9;
+  max-height: 110px;
+  overflow: hidden;
+}
+
+/* Buttons */
+.actions {
+  margin-top: 1.2rem;
+  display: flex;
+  gap: 1rem;
+}
+
+.btn {
+  padding: .7rem 1.5rem;
+  border-radius: 6px;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+}
+
+.primary {
+  background: #fff;
+  color: #000;
+}
+
+.secondary {
+  background: rgba(109,109,110,.7);
+  color: #fff;
+}
+
+/* MOBILE */
+@media (max-width: 768px) {
+  .banner {
+    height: 60vh;
+  }
+
+  .banner-content {
+    padding: 0 1.5rem 2rem;
+  }
+
+  .banner-content h1 {
+    font-size: 2rem;
+  }
+
+  .banner-content p {
+    font-size: .9rem;
+  }
+}
+
+/* LARGE SCREENS */
+@media (min-width: 1200px) {
+  .banner {
+    height: 85vh;
+  }
+}

@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AfterLoginComponent } from './after-login.component';
+import { BrowseProfileComponent } from './browse-profile.component';
 
-describe('AfterLoginComponent', () => {
-  let component: AfterLoginComponent;
-  let fixture: ComponentFixture<AfterLoginComponent>;
+describe('BrowseProfileComponent', () => {
+  let component: BrowseProfileComponent;
+  let fixture: ComponentFixture<BrowseProfileComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [AfterLoginComponent]
+      declarations: [BrowseProfileComponent]
     })
     .compileComponents();
-    
-    fixture = TestBed.createComponent(AfterLoginComponent);
+
+    fixture = TestBed.createComponent(BrowseProfileComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

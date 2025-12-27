@@ -1,12 +1,13 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AfterLoginComponent } from './Components/after-login/after-login.component';
-import { BeforeLoginComponent } from './Components/before-login/before-login.component';
+import { HomeComponent } from './Pages/home/home.component';
+import { BrowseProfileComponent } from './Components/browse-profile/browse-profile.component';
+import { authGuard } from './services/auth.guard';
 
 const routes: Routes = [
-  { path: 'beforelogin', component: BeforeLoginComponent },
-  { path: 'afterlogin', component: AfterLoginComponent },
-  { path: '', redirectTo: '/beforelogin', pathMatch: 'full' },
+  { path: '', component: HomeComponent, canActivate: [authGuard] },
+  { path: 'browse', component: BrowseProfileComponent },
+  { path: '**', redirectTo: '/browse', pathMatch: 'full' },
 ];
 
 @NgModule({

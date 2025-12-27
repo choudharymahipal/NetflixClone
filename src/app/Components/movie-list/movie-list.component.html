@@ -1,0 +1,28 @@
+<h2>{{title}}</h2>
+
+<div class="row">
+  <div class="card"
+       *ngFor="let m of movies"
+       (mouseenter)="setHover(m)"
+       (mouseleave)="clearHover()">
+
+    <img [src]="'https://image.tmdb.org/t/p/w500' + m.poster_path">
+
+    <!-- HOVER PREVIEW -->
+    <div class="hover-card" *ngIf="hoverMovie === m">
+      <img class="preview"
+           [src]="'https://image.tmdb.org/t/p/w500' + m.backdrop_path">
+
+      <div class="hover-info">
+        <h4>{{ m.title || m.name }}</h4>
+
+        <p>{{ m.overview }}</p>
+
+        <div class="hover-actions">
+          <button class="play">▶ Play</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

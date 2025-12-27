@@ -3,18 +3,24 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { AfterLoginComponent } from './Components/after-login/after-login.component';
-import { BeforeLoginComponent } from './Components/before-login/before-login.component';
+import { HttpClientModule } from '@angular/common/http';
+import { HomeComponent } from './Pages/home/home.component';
+import { MovieListComponent } from './Components/movie-list/movie-list.component';
+import { HeaderComponent } from './Components/header/header.component';
+import { BrowseProfileComponent } from './Components/browse-profile/browse-profile.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    AfterLoginComponent,
-    BeforeLoginComponent
+    HomeComponent,
+    MovieListComponent,
+    HeaderComponent,
+    BrowseProfileComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]
