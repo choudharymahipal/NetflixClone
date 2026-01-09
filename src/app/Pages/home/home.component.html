@@ -21,5 +21,10 @@
 </section>
 
 <!-- MOVIE ROWS -->
-<app-movie-list title="Trending Now" [movies]="trending()"></app-movie-list>
-<app-movie-list title="Popular Movies" [movies]="popular()"></app-movie-list>
+ @if(trending().length > 0){
+  <app-movie-list title="Trending Now" [movies]="trending()"></app-movie-list>
+ }
+
+  @if(popular().length > 0){
+  <app-movie-list title="Popular Movies" [movies]="popular()"></app-movie-list>
+ }

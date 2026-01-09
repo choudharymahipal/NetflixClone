@@ -11,6 +11,10 @@ import { AuthService } from '../../services/auth.service';
 export class BrowseProfileComponent {
   constructor(private router: Router, private authService: AuthService) {}
 
+  ngOnInit(): void {
+    
+  }
+
   // Navigate to home after login
   goToHome() {
     this.authService.login();

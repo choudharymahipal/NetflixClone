@@ -27,21 +27,21 @@
 
 .hover-card {
   position: absolute;
-  top: -180px;           /* Move above card */
+  top: 5px;           /* Move above card */
   left: 50%;
   transform: translateX(-50%);
-  width: 340px;
+  width: 300px;
   background: #111;
   border-radius: 8px;
   overflow: hidden;
   box-shadow: 0 10px 25px rgba(0,0,0,.7);
-  z-index: 200;
+  z-index: 999;
   animation: fadeIn .2s ease-in-out;
 }
 
 .hover-card img {
   width: 100%;
-  height: 180px;
+  height: 130px;
   object-fit: cover;
 }
 
@@ -91,4 +91,23 @@
   .hover-card{
     display: none;
   }
+}
+
+.rowHeader {
+    line-height: 1.3;
+    margin: 0;
+}
+.rowTitle {
+    color: #e5e5e5;
+    display: inline-block;
+    font-size: 1.4vw;
+    font-weight: 500;
+    margin: 0 4% .5em;
+    min-width: 6em;
+    text-decoration: none;
+}
+
+.listContainer{
+  margin: 0px 50px 0px 50px;
+  overflow: hidden;
 }

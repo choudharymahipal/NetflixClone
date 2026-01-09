@@ -4,6 +4,8 @@ import { Injectable, Signal, WritableSignal, signal } from '@angular/core';
   providedIn: 'root',
 })
 export class AuthService {
+  private staticDbURL = '/assets/db/users.json';
+  private USER_DATA_KEY = 'userData';
   // Signal to track authentication status
   private isAuthenticated: WritableSignal<boolean> = signal(false);
   private userData: WritableSignal<any> = signal(null);
@@ -25,25 +27,28 @@ export class AuthService {
 
   // Simulated user data
   getUserData(id?: number) {
-    let users: any[] = [
-      { id: 1, name: 'Mahipal', email: 'mahipal@example.com' },
-      { id: 2, name: 'Kids', email: 'kids@example.com' }
-    ];
+    let users = fetch(this.staticDbURL)
+      .then((response) => response.json())
+      .then((data) => data);
 
-    if (id !== undefined) {
-      return users.find(user => user.id === id);
-    }
-
-    return users[0];
+    return users.then((usersArray: any[]) =>
+      usersArray.find((user) => user.id === id)
+    );
   }
 
   // Set user data
   setUserData(data: any) {
     this.userData.set(data);
+    localStorage.setItem(this.USER_DATA_KEY, JSON.stringify(data));
   }
 
   // Get current user data
   getCurrentUserData(): Signal<any> {
+    let storedData = localStorage.getItem(this.USER_DATA_KEY);
+    if (storedData) {
+      this.isAuthenticated.set(true);
+      this.userData.set(JSON.parse(storedData));
+    }
     return this.userData;
   }
 }
