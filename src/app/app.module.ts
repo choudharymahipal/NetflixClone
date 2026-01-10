@@ -8,6 +8,7 @@ import { HomeComponent } from './Pages/home/home.component';
 import { MovieListComponent } from './Components/movie-list/movie-list.component';
 import { HeaderComponent } from './Components/header/header.component';
 import { BrowseProfileComponent } from './Components/browse-profile/browse-profile.component';
+import { FooterComponent } from './Components/footer/footer.component';
 
 @NgModule({
   declarations: [
@@ -15,7 +16,8 @@ import { BrowseProfileComponent } from './Components/browse-profile/browse-profi
     HomeComponent,
     MovieListComponent,
     HeaderComponent,
-    BrowseProfileComponent
+    BrowseProfileComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule,
