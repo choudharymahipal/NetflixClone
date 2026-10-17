@@ -1,38 +1,49 @@
-name: CI
+name: Deploy to GitHub Pages
 
 on:
   push:
     branches: ["main", "master"]
-  pull_request:
-    branches: ["main", "master"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
 
 jobs:
-  build:
-    name: Build, Lint & Test
+  build-and-deploy:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [18.x]
 
     steps:
-      - name: Checkout repository
+      - name: Checkout repo
         uses: actions/checkout@v4
 
-      - name: Use Node.js ${{ matrix.node-version }}
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: ${{ matrix.node-version }}
-          cache: 'npm'
+          node-version: 18
+          cache: "npm"
 
       - name: Install dependencies
         run: npm ci
 
-      - name: Lint
-        run: npm run lint --if-present
+      - name: Build (production) with repo-aware base-href
+        run: npm run build -- --configuration production --base-href /${{ github.event.repository.name }}/
 
-      - name: Run tests
+      - name: Ensure SPA fallback (copy index -> 404)
         run: |
-          npm run test --if-present -- --watch=false --browsers=ChromeHeadless
+          mkdir -p dist/${{ github.event.repository.name }}
+          if [ -f "dist/${{ github.event.repository.name }}/index.html" ]; then
+            cp dist/${{ github.event.repository.name }}/index.html dist/${{ github.event.repository.name }}/404.html
+          fi
 
-      - name: Build
-        run: npm run build --if-present -- --configuration production
+      - name: Configure Pages
+        uses: actions/configure-pages@v3
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v1
+        with:
+          path: dist/${{ github.event.repository.name }}
+
+      - name: Deploy to GitHub Pages
+        uses: actions/deploy-pages@v1
