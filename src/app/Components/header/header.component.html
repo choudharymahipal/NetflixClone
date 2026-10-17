@@ -1,20 +1,31 @@
-<nav class="nav">
-  <div class="logo">
-    NETFLIX
-  </div>
+<header class="topbar">
+  <a class="brand" routerLink="/" aria-label="Netflix home">NETFLIX</a>
 
-  <ul class="menu">
-    <li>Home</li>
-    <li>TV Shows</li>
-    <li>Movies</li>
-    <li>New & Popular</li>
-    <li>My List</li>
-  </ul>
+  <nav class="main-nav" aria-label="Main navigation">
+    <button class="nav-link" (click)="sectionSelected.emit('Home')">Home</button>
+    <button class="nav-link" (click)="sectionSelected.emit('Series')">Series</button>
+    <button class="nav-link" (click)="sectionSelected.emit('Films')">Films</button>
+    <button class="nav-link popular-link" (click)="sectionSelected.emit('Home')">New &amp; Popular</button>
+    <button class="nav-link" (click)="sectionSelected.emit('My List')">My List</button>
+  </nav>
 
-  <div class="right">
-    <input class="search" type="text" placeholder="Search"/>
-    <div class="profile">
-      <span class="username">{{userData?.email}}</span>
+  <div class="topbar-tools">
+    <label class="search-box">
+      <span class="search-icon" aria-hidden="true"></span>
+      <input type="search" placeholder="Titles, people, genres" aria-label="Search titles" (input)="searchChanged.emit($any($event.target).value)" />
+    </label>
+    <div class="account-wrap">
+      <button class="account-button" aria-label="Open profile menu" [attr.aria-expanded]="profileMenuOpen" (click)="profileMenuOpen = !profileMenuOpen">
+        <span class="avatar">{{ (userData?.name || userData?.email || 'M').charAt(0) | uppercase }}</span>
+        <span class="account-chevron" aria-hidden="true">⌄</span>
+      </button>
+      @if (profileMenuOpen) {
+        <div class="account-menu">
+          <span class="account-name">{{ userData?.name || userData?.email || 'Your profile' }}</span>
+          <button (click)="switchProfile()">Switch profile</button>
+          <button (click)="signOut()">Sign out</button>
+        </div>
+      }
     </div>
   </div>
-</nav>
+</header>

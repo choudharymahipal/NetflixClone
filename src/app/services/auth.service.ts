@@ -18,6 +18,8 @@ export class AuthService {
   // Simulated logout
   logout() {
     this.isAuthenticated.set(false);
+    this.userData.set(null);
+    localStorage.removeItem(this.USER_DATA_KEY);
   }
 
   // Get authentication status
@@ -46,8 +48,21 @@ export class AuthService {
   getCurrentUserData(): Signal<any> {
     let storedData = localStorage.getItem(this.USER_DATA_KEY);
     if (storedData) {
-      this.isAuthenticated.set(true);
-      this.userData.set(JSON.parse(storedData));
+      try {
+        const parsedData = JSON.parse(storedData);
+        if (parsedData && typeof parsedData.id === 'number') {
+          this.isAuthenticated.set(true);
+          this.userData.set(parsedData);
+        } else {
+          localStorage.removeItem(this.USER_DATA_KEY);
+          this.isAuthenticated.set(false);
+          this.userData.set(null);
+        }
+      } catch {
+        localStorage.removeItem(this.USER_DATA_KEY);
+        this.isAuthenticated.set(false);
+        this.userData.set(null);
+      }
     }
     return this.userData;
   }

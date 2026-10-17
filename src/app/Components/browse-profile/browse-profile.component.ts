@@ -22,14 +22,10 @@ export class BrowseProfileComponent {
   }
 
   // Fetch and set user data based on selected profile
-  getUserData(idx: number) {
-    console.log(idx);
-    
-    let userData = this.authService.getUserData(idx);
-    console.log(userData);
+  async getUserData(idx: number): Promise<void> {
+    const userData = await this.authService.getUserData(idx);
     if (userData) {
       this.authService.setUserData(userData);
-      // Navigate to home after setting user data
       this.goToHome();
     } else {
       alert('User not found');

@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
   selector: 'app-movie-list',
@@ -9,14 +9,13 @@ import { Component, Input } from '@angular/core';
 export class MovieListComponent {
   @Input() title:string = '';
   @Input() movies:any[] = [];
-  hoverMovie: any = null;
+  @Input() savedIds: number[] = [];
+  @Output() movieSelected = new EventEmitter<any>();
+  @Output() saveMovie = new EventEmitter<any>();
+  unavailablePosters = new Set<number>();
 
-  setHover(movie: any) {
-  this.hoverMovie = movie;
-}
-
-clearHover() {
-  this.hoverMovie = null;
-}
+  markPosterUnavailable(movie: any): void {
+    this.unavailablePosters.add(movie.id);
+  }
 
 }

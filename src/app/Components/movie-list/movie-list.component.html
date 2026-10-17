@@ -1,34 +1,27 @@
-<div class="listContainer">
-  <h2 class="rowHeader">
-    <span class="rowTitle">
-      <div class="row-header-title">{{title}}</div>
-    </span>
-  </h2>
-
-  <div class="row">
-    <div class="card"
-      *ngFor="let m of movies"
-      (mouseenter)="setHover(m)"
-      (mouseleave)="clearHover()">
-
-      <img [src]="'https://image.tmdb.org/t/p/w500' + m.poster_path">
-
-      <!-- HOVER PREVIEW -->
-      <div class="hover-card" *ngIf="hoverMovie === m">
-        <img class="preview"
-          [src]="'https://image.tmdb.org/t/p/w500' + m.backdrop_path">
-
-        <div class="hover-info">
-          <h4>{{ m.title || m.name }}</h4>
-
-          <p>{{ m.overview }}</p>
-
-          <div class="hover-actions">
-            <button class="play">▶ Play</button>
-          </div>
-        </div>
-      </div>
-
-    </div>
+<section class="movie-rail" [attr.aria-label]="title">
+  <div class="rail-heading">
+    <h2>{{ title }}</h2>
+    <span class="rail-hint">Explore all <span aria-hidden="true">&#8594;</span></span>
   </div>
-</div>
+  <div class="row">
+    <article class="movie-card" *ngFor="let movie of movies; let index = index">
+      <button class="poster-button" [attr.aria-label]="'View details for ' + (movie.title || movie.name)" (click)="movieSelected.emit(movie)">
+        @if (!unavailablePosters.has(movie.id)) {
+          <img [src]="'https://image.tmdb.org/t/p/w500' + movie.poster_path" [alt]="movie.title || movie.name" loading="lazy" (error)="markPosterUnavailable(movie)" />
+        } @else {
+          <span class="poster-fallback"><span class="poster-fallback-mark">N</span><strong>{{ movie.title || movie.name }}</strong><span>NOW STREAMING</span></span>
+        }
+        <span class="poster-shade"></span>
+        <span class="rank" *ngIf="index < 3 && title.toLowerCase().includes('trending')">{{ index + 1 }} <span>IN TV TODAY</span></span>
+        <span class="poster-open" aria-hidden="true">&#9654;</span>
+      </button>
+      <div class="movie-caption">
+        <button class="movie-name" [title]="movie.title || movie.name" (click)="movieSelected.emit(movie)">{{ movie.title || movie.name }}</button>
+        <button class="save-button" [class.saved]="savedIds.includes(movie.id)" [attr.aria-label]="savedIds.includes(movie.id) ? 'Remove from My List' : 'Add to My List'" [title]="savedIds.includes(movie.id) ? 'Remove from My List' : 'Add to My List'" (click)="saveMovie.emit(movie)">
+          {{ savedIds.includes(movie.id) ? '&#10003;' : '+' }}
+        </button>
+      </div>
+      <div class="movie-meta"><span>{{ movie.release_date?.slice(0, 4) || (movie.media_type === 'tv' ? 'Series' : 'Film') }}</span><span class="dot"></span><span class="rating">{{ (movie.vote_average * 10) | number:'1.0-0' }}% match</span></div>
+    </article>
+  </div>
+</section>

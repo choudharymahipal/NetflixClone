@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-header',
@@ -8,11 +9,24 @@ import { AuthService } from '../../services/auth.service';
   styleUrl: './header.component.scss'
 })
 export class HeaderComponent {
-userData:any;
+  @Output() sectionSelected = new EventEmitter<string>();
+  @Output() searchChanged = new EventEmitter<string>();
+  userData: any;
+  profileMenuOpen = false;
 
-  constructor(private authservice: AuthService) { }
+  constructor(private authService: AuthService, private router: Router) {}
 
   ngOnInit(): void {
-     this.userData =  this.authservice.getCurrentUserData()();
+    this.userData = this.authService.getCurrentUserData()();
+  }
+
+  signOut(): void {
+    this.authService.logout();
+    this.router.navigate(['/browse']);
+  }
+
+  switchProfile(): void {
+    this.profileMenuOpen = false;
+    this.router.navigate(['/browse']);
   }
 }

@@ -1,30 +1,128 @@
-<!-- HERO BANNER -->
-<section class="banner" *ngIf="trending().length">
-  <div class="banner-bg"
-       [style.backgroundImage]="'url(https://image.tmdb.org/t/p/original' + trending()[0].backdrop_path + ')'">
-  </div>
+<div class="browse-shell">
+  <app-header
+    (sectionSelected)="selectSection($event)"
+    (searchChanged)="setSearchQuery($event)"
+  />
 
-  <div class="overlay"></div>
+  @if (searchQuery().trim()) {
+    <main class="search-page">
+      <p class="eyebrow">YOUR SEARCH</p>
+      <h1>Results for <span>“{{ searchQuery() }}”</span></h1>
+      @if (searchResults.length) {
+        <app-movie-list
+          title="Titles"
+          [movies]="searchResults"
+          [savedIds]="savedMovieIds"
+          (movieSelected)="selectedMovie.set($event)"
+          (saveMovie)="toggleSaved($event)"
+        />
+      } @else {
+        <div class="empty-state">
+          <span class="empty-icon">⌕</span>
+          <h2>No titles found</h2>
+          <p>Try a different title or check your spelling.</p>
+        </div>
+      }
+    </main>
+  } @else if (activeSection() === 'My List') {
+    <main class="collection-page">
+      <p class="eyebrow">YOUR COLLECTION</p>
+      <h1>My List</h1>
+      @if (savedMovies().length) {
+        <app-movie-list
+          title="Saved for later"
+          [movies]="savedMovies()"
+          [savedIds]="savedMovieIds"
+          (movieSelected)="selectedMovie.set($event)"
+          (saveMovie)="toggleSaved($event)"
+        />
+      } @else {
+        <div class="empty-state">
+          <span class="empty-icon">＋</span>
+          <h2>Your list is waiting</h2>
+          <p>Save a film or series and it will be right here.</p>
+        </div>
+      }
+    </main>
+  } @else {
+    @if (trending().length) {
+      <section class="hero" [style.background-image]="'url(https://image.tmdb.org/t/p/original' + trending()[0].backdrop_path + ')'">
+        <div class="hero-shade"></div>
+        <div class="hero-content">
+          <div class="hero-kicker"><span class="n-mark">N</span> SERIES</div>
+          <h1>{{ trending()[0].title || trending()[0].name }}</h1>
+          <div class="hero-meta">
+            <span class="match">{{ (trending()[0].vote_average * 10) | number:'1.0-0' }}% match</span>
+            <span>{{ trending()[0].release_date?.slice(0, 4) || '2025' }}</span>
+            <span class="maturity">16+</span>
+            <span class="quality">4K</span>
+          </div>
+          <p class="hero-description">{{ trending()[0].overview }}</p>
+          <div class="hero-actions">
+            <button class="action-button watch-button" (click)="selectedMovie.set(trending()[0])">
+              <span aria-hidden="true">&#9654;</span> Play
+            </button>
+            <button class="action-button info-button" (click)="selectedMovie.set(trending()[0])">
+              <span class="info-icon" aria-hidden="true">i</span> More Info
+            </button>
+          </div>
+        </div>
+        <div class="hero-caption"><span class="sound-icon" aria-hidden="true">&#9835;</span><span>Featured tonight</span></div>
+      </section>
+    }
 
-  <div class="banner-content">
-    <h1>{{ trending()[0].title || trending()[0].name }}</h1>
+    <main class="catalog">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">A LITTLE SOMETHING FOR TONIGHT</p>
+          <h2>{{ activeSection() === 'Home' ? 'Your next favorite' : activeSection() }}</h2>
+        </div>
+        <div class="section-tabs" aria-label="Browse categories">
+          <button [class.active]="activeSection() === 'Home'" (click)="selectSection('Home')">For you</button>
+          <button [class.active]="activeSection() === 'Series'" (click)="selectSection('Series')">Series</button>
+          <button [class.active]="activeSection() === 'Films'" (click)="selectSection('Films')">Films</button>
+        </div>
+      </div>
 
-    <p>
-      {{ trending()[0].overview }}
-    </p>
+      @if (sectionMovies.length) {
+        <app-movie-list
+          [title]="activeSection() === 'Home' ? 'Trending now' : 'Browse ' + activeSection().toLowerCase()"
+          [movies]="sectionMovies"
+          [savedIds]="savedMovieIds"
+          (movieSelected)="selectedMovie.set($event)"
+          (saveMovie)="toggleSaved($event)"
+        />
+      }
+      @if (activeSection() === 'Home' && popular().length) {
+        <app-movie-list
+          title="Popular picks"
+          [movies]="popular()"
+          [savedIds]="savedMovieIds"
+          (movieSelected)="selectedMovie.set($event)"
+          (saveMovie)="toggleSaved($event)"
+        />
+      }
+    </main>
+  }
 
-    <div class="actions">
-      <button class="btn primary">▶ Play</button>
-      <button class="btn secondary">ℹ More Info</button>
+  @if (selectedMovie(); as movie) {
+    <div class="detail-backdrop" (click)="selectedMovie.set(null)" (keydown.escape)="selectedMovie.set(null)">
+      <section class="detail-panel" role="dialog" aria-modal="true" [attr.aria-label]="movie.title || movie.name" (click)="$event.stopPropagation()">
+        <button class="close-detail" aria-label="Close details" (click)="selectedMovie.set(null)">&times;</button>
+        <div class="detail-art" [style.background-image]="'url(https://image.tmdb.org/t/p/original' + (movie.backdrop_path || movie.poster_path) + ')'">
+          <div class="detail-art-shade"></div>
+          <div class="detail-title">
+            <span class="detail-brand"><span class="n-mark">N</span> FILM</span>
+            <h2>{{ movie.title || movie.name }}</h2>
+            <button class="action-button watch-button" (click)="selectedMovie.set(null)"><span aria-hidden="true">&#9654;</span> Play</button>
+          </div>
+        </div>
+        <div class="detail-copy">
+          <div class="detail-meta"><span class="match">{{ (movie.vote_average * 10) | number:'1.0-0' }}% match</span><span>{{ movie.release_date?.slice(0, 4) || '2025' }}</span><span class="maturity">16+</span><span class="quality">HD</span></div>
+          <p>{{ movie.overview }}</p>
+          <button class="list-toggle" (click)="toggleSaved(movie)"><span>{{ isSaved(movie) ? '✓' : '+' }}</span>{{ isSaved(movie) ? 'In My List' : 'Add to My List' }}</button>
+        </div>
+      </section>
     </div>
-  </div>
-</section>
-
-<!-- MOVIE ROWS -->
- @if(trending().length > 0){
-  <app-movie-list title="Trending Now" [movies]="trending()"></app-movie-list>
- }
-
-  @if(popular().length > 0){
-  <app-movie-list title="Popular Movies" [movies]="popular()"></app-movie-list>
- }
+  }
+</div>
