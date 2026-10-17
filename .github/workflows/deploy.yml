@@ -27,20 +27,24 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Build Angular app for GitHub Pages
+      - name: Build Angular app
         run: npm run build -- --configuration production --base-href /NetflixClone/
 
-      - name: Prepare output for Pages
+      - name: Prepare Pages artifact
         run: |
           mkdir -p site
-          if [ -d "dist/netflix-clone" ]; then
+
+          if [ -d "dist/netflix-clone/browser" ]; then
+            cp -R dist/netflix-clone/browser/. site/
+          elif [ -d "dist/netflix-clone" ]; then
             cp -R dist/netflix-clone/. site/
-            cp site/index.html site/404.html
           else
-            echo "Build output not found: dist/netflix-clone"
-            ls -R
+            echo "Angular build output not found."
+            find dist -maxdepth 4 -type d || true
             exit 1
           fi
+
+          cp site/index.html site/404.html
 
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
