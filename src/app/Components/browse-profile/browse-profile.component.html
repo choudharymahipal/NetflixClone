@@ -4,15 +4,18 @@
     <p class="profile-kicker">ONE ACCOUNT, EVERY MOOD</p>
     <h1>Who's watching?</h1>
     <div class="profiles">
-      <button class="profile" (click)="getUserData(1)">
+      <button class="profile" [disabled]="loadingProfile" (click)="getUserData(1)">
         <span class="avatar avatar-main"><span class="avatar-symbol">M</span></span>
         <span class="profile-name">Mahipal</span>
       </button>
-      <button class="profile" (click)="getUserData(2)">
+      <button class="profile" [disabled]="loadingProfile" (click)="getUserData(2)">
         <span class="avatar avatar-kids"><span class="avatar-symbol">K</span><span class="kids-badge">KIDS</span></span>
         <span class="profile-name">Kids</span>
       </button>
     </div>
+    @if (profileError) {
+      <p class="profile-error" role="alert">{{ profileError }}</p>
+    }
     <p class="profile-hint">Your recommendations stay separate for each profile.</p>
   </section>
 </main>

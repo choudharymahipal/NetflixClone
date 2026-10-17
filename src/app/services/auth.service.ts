@@ -4,7 +4,7 @@ import { Injectable, Signal, WritableSignal, signal } from '@angular/core';
   providedIn: 'root',
 })
 export class AuthService {
-  private staticDbURL = '/assets/db/users.json';
+  private staticDbURL = new URL('assets/db/users.json', document.baseURI).toString();
   private USER_DATA_KEY = 'userData';
   // Signal to track authentication status
   private isAuthenticated: WritableSignal<boolean> = signal(false);
@@ -28,14 +28,23 @@ export class AuthService {
   }
 
   // Simulated user data
-  getUserData(id?: number) {
-    let users = fetch(this.staticDbURL)
-      .then((response) => response.json())
-      .then((data) => data);
+  async getUserData(id?: number) {
+    const response = await fetch(this.staticDbURL);
+    if (!response.ok) {
+      throw new Error(`Could not load profiles (${response.status}).`);
+    }
 
-    return users.then((usersArray: any[]) =>
-      usersArray.find((user) => user.id === id)
-    );
+    let usersArray: any[];
+    try {
+      usersArray = await response.json();
+    } catch {
+      throw new Error('The profile data could not be read.');
+    }
+    if (!Array.isArray(usersArray)) {
+      throw new Error('The profile data has an invalid format.');
+    }
+
+    return usersArray.find((user) => user.id === id);
   }
 
   // Set user data
